@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
         if (currentUser != null){
             //Go to Home
             Log.d("MainActivity", "Logged: $currentUser")
+            auth.signOut()
         }
     }
 }

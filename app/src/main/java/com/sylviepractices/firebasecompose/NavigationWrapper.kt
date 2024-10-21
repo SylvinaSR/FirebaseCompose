@@ -31,7 +31,9 @@ fun NavigationWrapper(modifier: Modifier, navHostController: NavHostController, 
             )
         }
         composable(NavigationRoutes.SignUp.route) {
-            SignUpScreen()
+            SignUpScreen(
+                auth = auth
+            )
         }
     }
 
