@@ -3,16 +3,16 @@ package com.sylviepractices.firebasecompose
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.google.firebase.auth.FirebaseAuth
 import com.sylviepractices.firebasecompose.model.NavigationRoutes
 import com.sylviepractices.firebasecompose.ui.initial.InitialScreen
 import com.sylviepractices.firebasecompose.ui.login.LoginScreen
 import com.sylviepractices.firebasecompose.ui.signup.SignUpScreen
 
 @Composable
-fun NavigationWrapper(modifier: Modifier, navHostController: NavHostController) {
+fun NavigationWrapper(modifier: Modifier, navHostController: NavHostController, auth: FirebaseAuth) {
 
     NavHost(
         modifier = modifier,
@@ -26,7 +26,9 @@ fun NavigationWrapper(modifier: Modifier, navHostController: NavHostController) 
             )
         }
         composable(NavigationRoutes.LogIn.route) {
-            LoginScreen()
+            LoginScreen(
+                auth = auth
+            )
         }
         composable(NavigationRoutes.SignUp.route) {
             SignUpScreen()
