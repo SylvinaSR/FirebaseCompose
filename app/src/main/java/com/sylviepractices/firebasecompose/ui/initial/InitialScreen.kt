@@ -39,7 +39,7 @@ import com.sylviepractices.firebasecompose.ui.theme.White
 
 @Preview(showSystemUi = true)
 @Composable
-fun InitialScreen() {
+fun InitialScreen(navigateToLogin: () -> Unit = {}, navigateToSignUp: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +71,7 @@ fun InitialScreen() {
                 .fillMaxWidth()
                 .height(48.dp)
                 .padding(horizontal = 32.dp),
-            onClick = {},
+            onClick = { navigateToSignUp() },
             colors = ButtonDefaults.buttonColors(containerColor = Green)
         ) {
             Text(text = "SingUp Free", color = Black)
@@ -89,10 +89,16 @@ fun InitialScreen() {
             title = "Continue with Facebook"
         )
         Text(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp, horizontal = 32.dp)
+                .clickable {
+                    navigateToLogin()
+                },
             text = "Log In",
             color = White,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.weight(1f))
     }

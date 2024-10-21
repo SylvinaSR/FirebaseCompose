@@ -3,8 +3,10 @@ package com.sylviepractices.firebasecompose
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.sylviepractices.firebasecompose.model.NavigationRoutes
 import com.sylviepractices.firebasecompose.ui.initial.InitialScreen
 import com.sylviepractices.firebasecompose.ui.login.LoginScreen
 import com.sylviepractices.firebasecompose.ui.signup.SignUpScreen
@@ -15,15 +17,18 @@ fun NavigationWrapper(modifier: Modifier, navHostController: NavHostController) 
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = "Initial"
+        startDestination = NavigationRoutes.Initial.route
     ) {
-        composable("Initial"){
-            InitialScreen()
+        composable(NavigationRoutes.Initial.route) {
+            InitialScreen(
+                navigateToLogin = { navHostController.navigate(NavigationRoutes.LogIn.route) },
+                navigateToSignUp = { navHostController.navigate(NavigationRoutes.SignUp.route) }
+            )
         }
-        composable("LogIn"){
+        composable(NavigationRoutes.LogIn.route) {
             LoginScreen()
         }
-        composable("SignUp"){
+        composable(NavigationRoutes.SignUp.route) {
             SignUpScreen()
         }
     }
