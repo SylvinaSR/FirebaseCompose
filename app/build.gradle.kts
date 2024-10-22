@@ -75,6 +75,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
+    //LiveData
+    implementation(libs.androidx.runtime.livedata)
+
     //Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytic)
