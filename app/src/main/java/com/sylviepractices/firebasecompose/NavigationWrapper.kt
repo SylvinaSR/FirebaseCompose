@@ -9,10 +9,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.sylviepractices.firebasecompose.model.NavigationRoutes
 import com.sylviepractices.firebasecompose.ui.initial.InitialScreen
 import com.sylviepractices.firebasecompose.ui.login.LoginScreen
+import com.sylviepractices.firebasecompose.ui.login.LoginViewModel
 import com.sylviepractices.firebasecompose.ui.signup.SignUpScreen
 
 @Composable
-fun NavigationWrapper(modifier: Modifier, navHostController: NavHostController, auth: FirebaseAuth) {
+fun NavigationWrapper(
+    modifier: Modifier,
+    navHostController: NavHostController,
+    auth: FirebaseAuth,
+    loginViewModel: LoginViewModel
+) {
 
     NavHost(
         modifier = modifier,
@@ -26,9 +32,7 @@ fun NavigationWrapper(modifier: Modifier, navHostController: NavHostController, 
             )
         }
         composable(NavigationRoutes.LogIn.route) {
-            LoginScreen(
-                auth = auth
-            )
+            LoginScreen(loginViewModel)
         }
         composable(NavigationRoutes.SignUp.route) {
             SignUpScreen(

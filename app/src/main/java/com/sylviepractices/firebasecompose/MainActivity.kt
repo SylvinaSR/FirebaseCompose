@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -14,13 +15,18 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.sylviepractices.firebasecompose.ui.login.LoginViewModel
 import com.sylviepractices.firebasecompose.ui.theme.FirebaseComposeTheme
 import com.sylviepractices.firebasecompose.ui.theme.White
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var navHostController: NavHostController
     private lateinit var auth: FirebaseAuth
+
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +42,8 @@ class MainActivity : ComponentActivity() {
                     NavigationWrapper(
                         modifier = Modifier.padding(innerPadding),
                         navHostController = navHostController,
-                        auth = auth
+                        auth = auth,
+                        loginViewModel = loginViewModel
                     )
                 }
             }

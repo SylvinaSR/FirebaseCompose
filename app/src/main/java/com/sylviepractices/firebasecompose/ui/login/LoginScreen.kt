@@ -18,6 +18,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -25,6 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.sylviepractices.firebasecompose.ui.theme.Black
 import com.sylviepractices.firebasecompose.ui.theme.SelectedField
@@ -32,7 +37,39 @@ import com.sylviepractices.firebasecompose.ui.theme.UnselectedField
 import com.sylviepractices.firebasecompose.ui.theme.White
 
 @Composable
-fun LoginScreen(auth: FirebaseAuth) {
+fun LoginScreen(viewModel: LoginViewModel) {
+
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+
+    val uiState by produceState<LoginUiState>(
+        initialValue = LoginUiState.Start,
+        key1 = lifecycle,
+        key2 = viewModel
+    ) {
+        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+            viewModel.uiState.collect {
+                value = it
+            }
+        }
+    }
+
+    when(uiState){
+        LoginUiState.Start -> {
+            Log.d("LoginScreen", "Start")
+        }
+        LoginUiState.Loading -> {
+            Log.d("LoginScreen", "Loading")
+            viewModel.resetUiState()
+        }
+        LoginUiState.Error -> {
+            Log.d("LoginScreen", "Error")
+            viewModel.resetUiState()
+        }
+        LoginUiState.Success -> {
+            Log.d("LoginScreen", "Success")
+            viewModel.resetUiState()
+        }
+    }
 
     var email by remember {
         mutableStateOf("")
@@ -95,14 +132,7 @@ fun LoginScreen(auth: FirebaseAuth) {
         Spacer(modifier = Modifier.size(48.dp))
         Button(modifier = Modifier.align(Alignment.CenterHorizontally),
             onClick = {
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                    if (task.isSuccessful){
-                        //Navegar
-                        Log.d("LoginScreen", "Login OK")
-                    } else{
-                        Log.d("LoginScreen", "Login ERROR")
-                    }
-                }
+                viewModel.doLogin(email = email, password = password)
             }) {
             Text(text = "Login")
         }
