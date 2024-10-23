@@ -25,12 +25,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,8 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.sylviepractices.firebasecompose.R
 import com.sylviepractices.firebasecompose.ui.theme.Black
 import com.sylviepractices.firebasecompose.ui.theme.Gray
@@ -73,6 +69,8 @@ fun LoginScreen(viewModel: LoginViewModel) {
             }
         }
     }
+
+    Log.d("LoginScreen", "$uiState")
 
     when (uiState) {
         LoginUiState.Start -> {
@@ -124,7 +122,8 @@ fun LoginScreen(viewModel: LoginViewModel) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Black)
+                    .background(Black),
+                contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(color = Gray, strokeWidth = 5.dp, trackColor = Green)
             }
@@ -132,12 +131,10 @@ fun LoginScreen(viewModel: LoginViewModel) {
 
         LoginUiState.Error -> {
             Log.d("LoginScreen", "Error")
-            viewModel.resetUiState()
         }
 
         LoginUiState.Success -> {
             Log.d("LoginScreen", "Success")
-            viewModel.resetUiState()
         }
     }
 }

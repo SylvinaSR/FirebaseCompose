@@ -42,8 +42,8 @@ class LoginViewModel @Inject constructor(
         Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length >= 6
 
     fun doLogin(email: String, password: String) {
-        _uiState.update { LoginUiState.Loading }
         viewModelScope.launch {
+            _uiState.update { LoginUiState.Loading }
             loginUseCase(email = email, password = password).collect { result ->
                 when (result) {
                     is ResultModel.Error -> {
